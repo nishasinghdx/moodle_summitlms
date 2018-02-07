@@ -1,0 +1,21 @@
+﻿http://www.summitlms.co.za/
+admin
+Admin*123
+
+PUBLISHING / FTP DETAILS FOR summitlms.co.za:==================================================
+FTP server host : 
+
+www.summitlms.co.za
+
+FTP IP Address : 197.242.144.20 (may also be used as FTP server) 
+UserID : summizpq
+Password : X8u9s8Uaip5x
+
+ CONTROL PANEL DETAILS:
+==================================================
+
+You can access your website Control Panel at any time in order to create/edit email addresses, setup website scripts, access your website statistics and more.
+
+Go to URL: http://mail.summitlms.co.za/cpanel/
+Username: summizpq
+Password : X8u9s8Uaip5x
