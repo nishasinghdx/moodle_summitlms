@@ -130,5 +130,24 @@ var myBarChart = new Chart(ctx, {
 
 <?php
 echo date("'d-m-Y'",strtotime('today'));
-
  ?>
+
+ 
+
+</br></br>
+..........................
+<form class="" action="index.html" method="post" style="display : none;" id="form">
+  <div class="container">
+    <label><b>From:</b></label>
+    <input type="date" placeholder="Enter initial date" name="from" required>
+    <label><b>To:</b></label>
+    <input type="date" placeholder="Enter last date" name="to" required>
+    <button type="submit">submit</button>
+  </div>
+</form>
+<button onclick="show();">Click</button>
+<script type="text/javascript">
+function show(){
+   document.getElementById("form").style.display = "block";
+}
+</script>

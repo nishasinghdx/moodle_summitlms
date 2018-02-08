@@ -121,6 +121,9 @@ window.onload = function() {
 show_bar_chart_month();
 show_pie_chart_month();
 };
+function show_form(){
+  document.getElementById("form").style.display="block";
+}
 </script>
 
 
@@ -632,11 +635,19 @@ show_pie_chart_month();
                                 <a class="btn active" href="#" data-toggle="tab"><font color="black" onclick="show_bar_chart_week();">Week</font></a>
                                 <a class="btn active" href="#" data-toggle="tab" onclick="show_bar_chart_month();show_pie_chart_month();"><font color="black">Month</font></a>
                                 <a class="btn active" href="#" data-toggle="tab"><font color="black" onclick="show_bar_chart_year();">Year</font></a>
-                                <a class="btn active" href="#" data-toggle="tab"><font color="black">Period</font></a>
+                                <a class="btn active" href="#" data-toggle="tab"><font color="black" onclick="show_form();">Period</font></a>
                               </div>
                             </div>
                           </div>
                         </div>
+
+<form class="" style="display:none" id="form">
+<label for="fromdate">Start Date:</label>
+<input type="date" name="fromdate" value="fromdate" id="fromdate">
+<label for="todate">End Date:</label>
+<input type="date" name="todate" value="todate" id="todate">
+<input type="button" name="click" value="click" onclick="show_bar_chart_period();">
+</form>
 
 
                         <div class=" row-fluid detail_list" style="margin-top: 30px;font-size: 14px;">
@@ -899,6 +910,66 @@ show_pie_chart_month();
                         }
                     }
                   });
+
+                  }
+
+                  function show_bar_chart_period(){
+                  var fromdate=document.getElementById("fromdate").value;
+                  var todate=document.getElementById("todate").value;
+                  var uid=<?php echo $uid; ?>;
+                  // alert(fromdate+todate);
+                  // alert(uid);
+                  $.ajax({
+                  url: 'lib.php',
+                  data: {fromdate: fromdate,todate: todate,uid: uid},
+                  type: 'post',
+                  success: function(data) {
+                        // alert("success");
+                        // alert(JSON.stringify(data));
+                        var logincount=JSON.stringify(data);
+                        var num=logincount.replace(/"([^"]+(?="))"/g, '$1');
+                        // alert(num);
+                        var ctx1 = document.getElementById("Chart").getContext("2d");
+                        var data = {
+                          labels: [fromdate+" to "+todate],
+                          datasets: [
+                              {
+                                  label: "Logins",
+                                  backgroundColor: "blue",
+                                  data: [num]
+
+                              },
+                              // {
+                              //     label: "Course Completions",
+                              //     backgroundColor: "red",
+                              //     data: [8]
+                              // },
+
+                          ]
+                        };
+
+                        var myBarChart = new Chart(ctx1, {
+                          type: 'bar',
+                          data: data,
+                          options: {
+                              barValueSpacing: 20,
+                              scales: {
+                                  yAxes: [{
+                                      ticks: {
+                                          min: 0,
+                                      }
+                                  }]
+                              }
+                          }
+                        });
+
+
+                  },
+                  error: function(data) {
+                    alert("error");
+                  }
+                  });
+
 
                   }
 

@@ -94,7 +94,7 @@ function user_login_dates_week($uid){
 
 function user_login_dates_month($uid){
   global $DB;
-  $time=strtotime("-9 week");
+  $time=strtotime("-5 week");
   $user_login_dates_month=$DB->get_records_sql("SELECT timecreated as user_login_dates_month
   FROM {logstore_standard_log}
   WHERE (userid=$uid) AND (action='loggedin') AND (timecreated>=$time)
@@ -298,7 +298,7 @@ function count_login_between_two_dates($date1,$date2,$uid){
   $date1=$date1;
   $date2=$date2;
   $t1=strtotime($date1."".'00:00:00');
-  $t2=strtotime($date2."".'00:00:00');
+  $t2=strtotime($date2."".'24:00:00');
   $count_login_between_two_dates=$DB->get_record_sql("SELECT count(id) as count_login
     FROM {logstore_standard_log}
     WHERE (userid=$uid) AND (action='loggedin') AND (timecreated  BETWEEN $t1 AND $t2)
@@ -306,5 +306,28 @@ function count_login_between_two_dates($date1,$date2,$uid){
   return $count_login_between_two_dates;
 }
 
+function count_courses_completed_by_user_between_two_date($date1,$date2,$uid){
+  global $DB;
+  $date1=$date1;
+  $date2=$date2;
+  $t1=strtotime($date1."".'00:00:00');
+  $t2=strtotime($date2."".'00:00:00');
+  $count_courses_completed_by_user_between_two_date=$DB->get_record_sql("SELECT count(DISTINCT id) as count_course
+  FROM {course_modules_completion}
+  WHERE (timemodified  BETWEEN $t1 AND $t2) AND (completionstate=1) AND (userid=$uid)
+  ");
+  return $count_courses_completed_by_user_between_two_date;
+}
 
+
+if(isset($_POST['fromdate'])) {
+    $fromdate=$_POST['fromdate'];
+    $todate=$_POST['todate'];
+    $uid=$_POST['uid'];
+    $count_login_between_two_dates=count_login_between_two_dates($fromdate,$todate,$uid);
+    // echo $fromdate;
+    // echo $todate;
+    // echo $uid;
+    echo $count_login_between_two_dates->count_login;
+}
  ?>
